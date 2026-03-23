@@ -105,5 +105,12 @@ public class RideRequest {
 	public void setRideRequestStatus(RideRequestStatus rideRequestStatus) {
 		this.rideRequestStatus = rideRequestStatus;
 	}
+
+	@Override
+	public String toString() {
+		return "RideRequest [id=" + id + ", pickupLocation=" + pickupLocation + ", dropOffLocation=" + dropOffLocation
+				+ ", requestTime=" + requestTime + ", rider=" + rider + ", paymentMethod=" + paymentMethod
+				+ ", rideRequestStatus=" + rideRequestStatus + "]";
+	}
 	
 }

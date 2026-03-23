@@ -2,7 +2,6 @@ package com.example.demo.dto;
 
 import java.time.LocalDateTime;
 
-import org.geolatte.geom.Point;
 
 import com.example.demo.entity.enums.PaymentMethod;
 import com.example.demo.entity.enums.RideRequestStatus;
@@ -11,10 +10,16 @@ import com.example.demo.entity.enums.RideRequestStatus;
 public class RideRequestDTO {
 	
 	private Long id;
-	private Point pickupLocation;
-	private Point dropOffLocation;
+	
+	private PointDTO pickupLocation;
+	private PointDTO dropOffLocation;
+	
 	private LocalDateTime requestTime;
+	
+	
 	private RiderDTO rider; 
+	
+	
 	private PaymentMethod paymentMethod;
 	private RideRequestStatus rideRequestStatus;
 	
@@ -30,19 +35,19 @@ public class RideRequestDTO {
 		this.id = id;
 	}
 
-	public Point getPickupLocation() {
+	public PointDTO getPickupLocation() {
 		return pickupLocation;
 	}
 
-	public void setPickupLocation(Point pickupLocation) {
+	public void setPickupLocation(PointDTO pickupLocation) {
 		this.pickupLocation = pickupLocation;
 	}
 
-	public Point getDropOffLocation() {
+	public PointDTO getDropOffLocation() {
 		return dropOffLocation;
 	}
 
-	public void setDropOffLocation(Point dropOffLocation) {
+	public void setDropOffLocation(PointDTO dropOffLocation) {
 		this.dropOffLocation = dropOffLocation;
 	}
 
@@ -77,7 +82,12 @@ public class RideRequestDTO {
 	public void setRideRequestStatus(RideRequestStatus rideRequestStatus) {
 		this.rideRequestStatus = rideRequestStatus;
 	}
-	
-	
-	
+
+	@Override
+	public String toString() {
+		return "RideRequestDTO [id=" + id + ", pickupLocation=" + pickupLocation + ", dropOffLocation="
+				+ dropOffLocation + ", requestTime=" + requestTime + ", rider=" + rider + ", paymentMethod="
+				+ paymentMethod + ", rideRequestStatus=" + rideRequestStatus + "]";
+	}
+		
 }

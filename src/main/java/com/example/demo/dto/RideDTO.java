@@ -22,6 +22,9 @@ public class RideDTO {
 	
 	
 	private RideStatus rideStatus; 
+	
+	private String otp;
+	
 	private Double fair;
 	private LocalDateTime startAt; // uses OTP and start the ride
 	private LocalDateTime endedAt;
