@@ -1,9 +1,11 @@
 package com.example.demo.startegies;
 
-import com.example.demo.dto.RideRequestDTO;
+import com.example.demo.entity.RideRequest;
 
 public interface RideFareCalculationStartergy {
 	
-	double calculateRideFare(RideRequestDTO rideRequestDTO);
+	final double RIDE_FARE_MULTIPLIER = 10.0;
+	
+	double calculateRideFare(RideRequest rideRequest);
 	
 }

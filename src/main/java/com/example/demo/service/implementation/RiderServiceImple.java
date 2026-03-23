@@ -7,16 +7,33 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.RideRequestDTO;
 import com.example.demo.entity.RideRequest;
+import com.example.demo.entity.enums.RideRequestStatus;
+import com.example.demo.repository.RideRequestRepository;
 import com.example.demo.service.RiderService;
+import com.example.demo.startegies.DriverMatchingStartergy;
+import com.example.demo.startegies.RideFareCalculationStartergy;
 
 
 @Service
 public class RiderServiceImple implements RiderService {
 	
 	private final ModelMapper modelMapper;
+	private final RideFareCalculationStartergy rideFareCalculationStartergy;
+	private final DriverMatchingStartergy driverMatchingStartergy;
+	private final RideRequestRepository rideRequestRepository;
 	
-	public RiderServiceImple(ModelMapper modelMapper) {
+	
+	public RiderServiceImple(
+			ModelMapper modelMapper, 
+			RideFareCalculationStartergy rideFareCalculationStartergy,
+			DriverMatchingStartergy driverMatchingStartergy,
+			RideRequestRepository rideRequestRepository) {
+		
+		
 		this.modelMapper = modelMapper;
+		this.rideFareCalculationStartergy = rideFareCalculationStartergy;
+		this.driverMatchingStartergy = driverMatchingStartergy;
+		this.rideRequestRepository = rideRequestRepository;
 	}
 	
 	
@@ -24,12 +41,17 @@ public class RiderServiceImple implements RiderService {
 	public RideRequestDTO requestRide(RideRequestDTO rideRequestDTO) {
 		
 		RideRequest rideRequest = modelMapper.map(rideRequestDTO, RideRequest.class);
+		rideRequest.setRideRequestStatus(RideRequestStatus.PENDING);
 		
-		System.out.println(rideRequest);
-		System.out.println(rideRequestDTO);
+		Double fair = rideFareCalculationStartergy.calculateRideFare(rideRequest);
+		rideRequest.setFair(fair);
 		
-		return null;
+		RideRequest savedRideRequest = rideRequestRepository.save(rideRequest);
 		
+		//BROADCAST THE MESSAGE TO ALL THE DRIVER 
+		driverMatchingStartergy.findMatchingDriver(rideRequest);
+		
+		return modelMapper.map(savedRideRequest, RideRequestDTO.class);
 	}
 
 	@Override

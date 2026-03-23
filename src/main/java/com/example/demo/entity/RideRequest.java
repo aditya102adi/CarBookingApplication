@@ -34,6 +34,8 @@ public class RideRequest {
 	@Enumerated(EnumType.STRING)
 	private RideRequestStatus rideRequestStatus;
 	
+	private Double fair;
+	
 	public RideRequest() {
 		
 	}
@@ -96,6 +98,14 @@ public class RideRequest {
 
 	public void setPaymentMethod(PaymentMethod paymentMethod) {
 		this.paymentMethod = paymentMethod;
+	}
+
+	public Double getFair() {
+		return fair;
+	}
+
+	public void setFair(Double fair) {
+		this.fair = fair;
 	}
 
 	public RideRequestStatus getRideRequestStatus() {
