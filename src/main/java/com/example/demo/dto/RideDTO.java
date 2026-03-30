@@ -2,7 +2,7 @@ package com.example.demo.dto;
 
 import java.time.LocalDateTime;
 
-import org.geolatte.geom.Point;
+import org.locationtech.jts.geom.Point;
 
 import com.example.demo.entity.Driver;
 import com.example.demo.entity.enums.PaymentMethod;
@@ -25,6 +25,16 @@ public class RideDTO {
 	
 	private String otp;
 	
+	public String getOtp() {
+		return otp;
+	}
+
+
+	public void setOtp(String otp) {
+		this.otp = otp;
+	}
+
+
 	private Double fair;
 	private LocalDateTime startAt; // uses OTP and start the ride
 	private LocalDateTime endedAt;

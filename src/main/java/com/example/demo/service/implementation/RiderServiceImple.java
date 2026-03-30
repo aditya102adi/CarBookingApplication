@@ -6,39 +6,35 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.RideRequestDTO;
-import com.example.demo.entity.Ride;
 import com.example.demo.entity.RideRequest;
 import com.example.demo.entity.Rider;
 import com.example.demo.entity.User;
 import com.example.demo.entity.enums.RideRequestStatus;
+import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.repository.RideRequestRepository;
 import com.example.demo.repository.RiderRepository;
 import com.example.demo.service.RiderService;
-import com.example.demo.startegies.DriverMatchingStartergy;
-import com.example.demo.startegies.RideFareCalculationStartergy;
+import com.example.demo.startegies.RideStratergyManager;
 
 
 @Service
 public class RiderServiceImple implements RiderService {
 	
 	private final ModelMapper modelMapper;
-	private final RideFareCalculationStartergy rideFareCalculationStartergy;
-	private final DriverMatchingStartergy driverMatchingStartergy;
+	private final RideStratergyManager  rideStratergyManager;
 	private final RideRequestRepository rideRequestRepository;
 	private final RiderRepository riderRepository;
 	
 	
 	public RiderServiceImple(
 			ModelMapper modelMapper, 
-			RideFareCalculationStartergy rideFareCalculationStartergy,
-			DriverMatchingStartergy driverMatchingStartergy,
+			RideStratergyManager rideStratergyManager,
 			RideRequestRepository rideRequestRepository,
 			RiderRepository riderRepository) {
 		
 		
 		this.modelMapper = modelMapper;
-		this.rideFareCalculationStartergy = rideFareCalculationStartergy;
-		this.driverMatchingStartergy = driverMatchingStartergy;
+		this.rideStratergyManager = rideStratergyManager;
 		this.rideRequestRepository = rideRequestRepository;
 		this.riderRepository = riderRepository;
 	}
@@ -47,16 +43,18 @@ public class RiderServiceImple implements RiderService {
 	@Override
 	public RideRequestDTO requestRide(RideRequestDTO rideRequestDTO) {
 		
+		Rider rider = getCurrentRider();
+		
 		RideRequest rideRequest = modelMapper.map(rideRequestDTO, RideRequest.class);
 		rideRequest.setRideRequestStatus(RideRequestStatus.PENDING);
 		
-		Double fair = rideFareCalculationStartergy.calculateRideFare(rideRequest);
+		Double fair = rideStratergyManager.rideFareCalculationStartergy().calculateRideFare(rideRequest);
 		rideRequest.setFair(fair);
 		
 		RideRequest savedRideRequest = rideRequestRepository.save(rideRequest);
 		
 		//BROADCAST THE MESSAGE TO ALL THE DRIVER 
-		driverMatchingStartergy.findMatchingDriver(rideRequest);
+		rideStratergyManager.driverMatchingStratergy(rider.getRating()).findMatchingDriver(rideRequest);
 		
 		return modelMapper.map(savedRideRequest, RideRequestDTO.class);
 	}
@@ -86,6 +84,11 @@ public class RiderServiceImple implements RiderService {
 		rider.setUser(user);
 		 
 		return riderRepository.save(rider);
+	}
+	
+	public Rider getCurrentRider() {
+		return riderRepository.findById(1L).orElseThrow(
+				()-> new ResourceNotFoundException("Rider not found with ID: " + 1));
 	}
 
 	

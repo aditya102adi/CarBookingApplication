@@ -2,7 +2,7 @@ package com.example.demo.entity;
 
 import java.time.LocalDateTime;
 
-import org.geolatte.geom.Point;
+import org.locationtech.jts.geom.Point;
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.example.demo.entity.enums.PaymentMethod;

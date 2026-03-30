@@ -9,21 +9,19 @@ import com.example.demo.startegies.RideFareCalculationStartergy;
 
 
 @Service
-public class RideFairDefaultFareCalculation implements RideFareCalculationStartergy {
+public class RiderFareDefaultFareCalculationStrategy implements RideFareCalculationStartergy {
 	
 	private final DistanceService distanceService;
 	
-	public RideFairDefaultFareCalculation(DistanceService distanceService) {
+	public RiderFareDefaultFareCalculationStrategy(DistanceService distanceService) {
 		this.distanceService = distanceService;
 	}
 	
 	@Override
 	public double calculateRideFare(RideRequest rideRequest) {
 		
-		// Get the distance in meters
-		Double distance = distanceService.calculateDistance(rideRequest.getPickupLocation(), 
+		double distance = distanceService.calculateDistance(rideRequest.getPickupLocation(), 
 				rideRequest.getDropOffLocation());
-		
 		
 		return distance * RIDE_FARE_MULTIPLIER;
 	}

@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
-import org.geolatte.geom.Point;
+
+import org.locationtech.jts.geom.Point;
 
 public interface DistanceService {
 	

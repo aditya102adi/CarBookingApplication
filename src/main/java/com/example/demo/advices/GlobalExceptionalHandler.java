@@ -9,10 +9,10 @@ import com.example.demo.exceptions.BadCredentialException;
 import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.exceptions.RuntimeConflictException;
 
+
 @RestControllerAdvice
-public class GlobalExcptionalHandler {
-	
-	
+public class GlobalExceptionalHandler {
+
 	@ExceptionHandler(ResourceNotFoundException.class)
 	public ResponseEntity<ApiResponse<?>> handleResouceNotFound(ResourceNotFoundException exception) {
 		
@@ -32,16 +32,7 @@ public class GlobalExcptionalHandler {
 		
 		return generateApiResponse(error);
 	}
-	
-	@ExceptionHandler(Exception.class)
-	public ResponseEntity<ApiResponse<?>> handleInternalServerError(Exception exception) {
-		
-		ApiError error = new ApiError();
-		error.setMessage(exception.getMessage());
-		error.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
-		
-		return generateApiResponse(error);
-	}
+
 	
 	@ExceptionHandler(RuntimeConflictException.class)
 	public ResponseEntity<ApiResponse<?>> handleRuntimeConflictException(RuntimeConflictException exception) {
@@ -53,6 +44,15 @@ public class GlobalExcptionalHandler {
 		return generateApiResponse(error);
 	}
 	
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<ApiResponse<?>> handleInternalServerError(Exception exception) {
+		
+		ApiError error = new ApiError();
+		error.setMessage(exception.getMessage());
+		error.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+		
+		return generateApiResponse(error);
+	}
 	
 	private ResponseEntity<ApiResponse<?>> generateApiResponse(ApiError error) {		
 		return new ResponseEntity<>(new ApiResponse<>(error), error.getStatus());

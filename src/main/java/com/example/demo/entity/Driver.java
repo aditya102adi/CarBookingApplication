@@ -1,6 +1,6 @@
 package com.example.demo.entity;
 
-import org.geolatte.geom.Point;
+import org.locationtech.jts.geom.Point;
 
 import jakarta.persistence.*;
 
@@ -23,7 +23,10 @@ public class Driver {
 	private Boolean isAvaliable;
 	
 	@Column(columnDefinition = "Geometry(Point, 4326)") // Earth co-ordinate [4326] // for hibernate
-	Point currentLocation; // support for longitude and latitude
+	private Point currentLocation; // support for longitude and latitude
+	
+	
+	
 	
 	public Driver() {
 		// TODO Auto-generated constructor stub

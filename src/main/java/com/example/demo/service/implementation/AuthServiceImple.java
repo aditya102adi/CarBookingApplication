@@ -8,13 +8,14 @@ import org.springframework.stereotype.Service;
 import com.example.demo.dto.DriverDTO;
 import com.example.demo.dto.SignUpDTO;
 import com.example.demo.dto.UserDTO;
-import com.example.demo.entity.Rider;
 import com.example.demo.entity.User;
 import com.example.demo.entity.enums.Role;
 import com.example.demo.exceptions.RuntimeConflictException;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.AuthService;
 import com.example.demo.service.RiderService;
+
+import jakarta.transaction.Transactional;
 
 
 @Service
@@ -24,7 +25,7 @@ public class AuthServiceImple implements AuthService {
 	private final UserRepository userRepository;
 	private final RiderService riderService;
 	
-	private AuthServiceImple(
+	public AuthServiceImple(
 			ModelMapper modelMapper, 
 			UserRepository userRepository, 
 			RiderService riderService ) {
@@ -42,6 +43,7 @@ public class AuthServiceImple implements AuthService {
 	
 	
 	@Override
+	@Transactional
 	public UserDTO signUp(SignUpDTO signUpDTO) {
 		
 		userRepository.findByEmail(signUpDTO.getEmail()).orElseThrow(() -> 
@@ -54,16 +56,14 @@ public class AuthServiceImple implements AuthService {
 		User savedUser = userRepository.save(mappedUser);
 		
 		
-		// Create the user realted entites
+		// Create the user related entities
 		
 		riderService.createNewRider(savedUser);
-		
+		// TODO : Add wallet related service 
 		
 		return modelMapper.map(savedUser, UserDTO.class);
 	}
 
-	
-	
 	
 	@Override
 	public DriverDTO onboardNewDriver(Long userId) {
