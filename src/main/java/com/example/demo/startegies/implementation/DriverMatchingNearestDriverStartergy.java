@@ -6,16 +6,22 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Driver;
 import com.example.demo.entity.RideRequest;
+import com.example.demo.repository.DriverRepository;
 import com.example.demo.startegies.DriverMatchingStartergy;
 
 
 @Service
 public class DriverMatchingNearestDriverStartergy implements DriverMatchingStartergy {
 	
+	private final DriverRepository driverRepository;
+	
+	public DriverMatchingNearestDriverStartergy(DriverRepository driverRepository) {
+		this.driverRepository = driverRepository;
+	}
+	
 	@Override
 	public List<Driver> findMatchingDriver(RideRequest rideRequest) {
-		// TODO Auto-generated method stub
-		return null;
+		return driverRepository.findTenNearestDrivers(rideRequest.getPickupLocation());
 	}
 	
 	

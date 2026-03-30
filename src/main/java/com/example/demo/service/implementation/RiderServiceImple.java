@@ -6,9 +6,13 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.RideRequestDTO;
+import com.example.demo.entity.Ride;
 import com.example.demo.entity.RideRequest;
+import com.example.demo.entity.Rider;
+import com.example.demo.entity.User;
 import com.example.demo.entity.enums.RideRequestStatus;
 import com.example.demo.repository.RideRequestRepository;
+import com.example.demo.repository.RiderRepository;
 import com.example.demo.service.RiderService;
 import com.example.demo.startegies.DriverMatchingStartergy;
 import com.example.demo.startegies.RideFareCalculationStartergy;
@@ -21,19 +25,22 @@ public class RiderServiceImple implements RiderService {
 	private final RideFareCalculationStartergy rideFareCalculationStartergy;
 	private final DriverMatchingStartergy driverMatchingStartergy;
 	private final RideRequestRepository rideRequestRepository;
+	private final RiderRepository riderRepository;
 	
 	
 	public RiderServiceImple(
 			ModelMapper modelMapper, 
 			RideFareCalculationStartergy rideFareCalculationStartergy,
 			DriverMatchingStartergy driverMatchingStartergy,
-			RideRequestRepository rideRequestRepository) {
+			RideRequestRepository rideRequestRepository,
+			RiderRepository riderRepository) {
 		
 		
 		this.modelMapper = modelMapper;
 		this.rideFareCalculationStartergy = rideFareCalculationStartergy;
 		this.driverMatchingStartergy = driverMatchingStartergy;
 		this.rideRequestRepository = rideRequestRepository;
+		this.riderRepository = riderRepository;
 	}
 	
 	
@@ -72,6 +79,14 @@ public class RiderServiceImple implements RiderService {
 		return null;
 	}
 	
-	
+	@Override
+	public Rider createNewRider(User user) {
+		Rider rider = new Rider();
+		rider.setRating(0.0);
+		rider.setUser(user);
+		 
+		return riderRepository.save(rider);
+	}
+
 	
 }

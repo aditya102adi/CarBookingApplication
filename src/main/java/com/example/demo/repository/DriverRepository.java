@@ -16,9 +16,7 @@ import com.example.demo.entity.Driver;
 @Repository
 public interface DriverRepository extends JpaRepository<Driver, Long> {
 	
-	
 	@Query(value = """
-		    
 		    SELECT d.*, 
 		           ST_Distance(d.current_location, :pickupLocation) AS distance
 		    FROM drivers d
@@ -27,7 +25,7 @@ public interface DriverRepository extends JpaRepository<Driver, Long> {
 		    ORDER BY distance
 		    LIMIT 10
 		""", nativeQuery = true)
-	List<Driver> findMatchingDrivers(Point pickupLocation);
+	List<Driver> findTenNearestDrivers(Point pickupLocation);
 	
 	
 }
