@@ -16,6 +16,8 @@ import com.example.demo.repository.RiderRepository;
 import com.example.demo.service.RiderService;
 import com.example.demo.startegies.RideStratergyManager;
 
+import jakarta.transaction.Transactional;
+
 
 @Service
 public class RiderServiceImple implements RiderService {
@@ -41,6 +43,7 @@ public class RiderServiceImple implements RiderService {
 	
 	
 	@Override
+	@Transactional
 	public RideRequestDTO requestRide(RideRequestDTO rideRequestDTO) {
 		
 		Rider rider = getCurrentRider();
@@ -48,8 +51,10 @@ public class RiderServiceImple implements RiderService {
 		RideRequest rideRequest = modelMapper.map(rideRequestDTO, RideRequest.class);
 		rideRequest.setRideRequestStatus(RideRequestStatus.PENDING);
 		
-		Double fair = rideStratergyManager.rideFareCalculationStartergy().calculateRideFare(rideRequest);
-		rideRequest.setFair(fair);
+		rideRequest.setRider(rider);
+		
+		Double fare = rideStratergyManager.rideFareCalculationStartergy().calculateRideFare(rideRequest);
+		rideRequest.setFare(fare);
 		
 		RideRequest savedRideRequest = rideRequestRepository.save(rideRequest);
 		

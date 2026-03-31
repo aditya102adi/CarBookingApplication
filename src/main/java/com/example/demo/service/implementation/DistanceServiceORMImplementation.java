@@ -21,13 +21,18 @@ public class DistanceServiceORMImplementation  implements DistanceService {
 			
 			String uri = src.getX()+","+src.getY()+";"+dest.getX()+","+dest.getY();
 			
+			System.out.println(OSRM_API + uri);
+			
 			OSRMResponseDto responseDTO = RestClient.builder()
 			.baseUrl(OSRM_API)
 			.build()
 			.get()
 			.uri(uri)
+			.header("Accept-Encoding", "identity") 
 			.retrieve()
 			.body(OSRMResponseDto.class);
+			
+			System.out.println("The Distance is: " + responseDTO.getRoutes().get(0));
 			
 			return responseDTO.getRoutes().get(0).getDistance() / 1000; // return the distance in kilometer
 		}
@@ -42,6 +47,8 @@ public class DistanceServiceORMImplementation  implements DistanceService {
 
 class OSRMResponseDto {
 	
+	public OSRMResponseDto() {}
+	
 	private List<OSRMRoute> routes;
 
 	public List<OSRMRoute> getRoutes() {
@@ -51,10 +58,16 @@ class OSRMResponseDto {
 	public void setRoutes(List<OSRMRoute> routes) {
 		this.routes = routes;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "OSRMResponseDto [routes=" + routes + "]";
+	}
 }
 
 class OSRMRoute {
+	
+	public OSRMRoute() {}
 	
 	private Double distance;
 
@@ -64,7 +77,12 @@ class OSRMRoute {
 
 	public void setDistance(Double distance) {
 		this.distance = distance;
-	} 
+	}
+
+	@Override
+	public String toString() {
+		return "OSRMRoute [distance=" + distance + "]";
+	}
 	
 }
 

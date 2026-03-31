@@ -13,15 +13,14 @@ public class RideRequestDTO {
 	
 	private PointDTO pickupLocation;
 	private PointDTO dropOffLocation;
-	
 	private LocalDateTime requestTime;
 	
-	
 	private RiderDTO rider; 
-	
+	private Double fare;
 	
 	private PaymentMethod paymentMethod;
 	private RideRequestStatus rideRequestStatus;
+	
 	
 	public RideRequestDTO() {
 		// TODO Auto-generated constructor stub
@@ -83,11 +82,19 @@ public class RideRequestDTO {
 		this.rideRequestStatus = rideRequestStatus;
 	}
 
+	public Double getFare() {
+		return fare;
+	}
+
+	public void setFare(Double fare) {
+		this.fare = fare;
+	}
+
 	@Override
 	public String toString() {
 		return "RideRequestDTO [id=" + id + ", pickupLocation=" + pickupLocation + ", dropOffLocation="
-				+ dropOffLocation + ", requestTime=" + requestTime + ", rider=" + rider + ", paymentMethod="
-				+ paymentMethod + ", rideRequestStatus=" + rideRequestStatus + "]";
+				+ dropOffLocation + ", requestTime=" + requestTime + ", rider=" + rider + ", fare=" + fare
+				+ ", paymentMethod=" + paymentMethod + ", rideRequestStatus=" + rideRequestStatus + "]";
 	}
 		
 }

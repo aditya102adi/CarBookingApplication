@@ -2,25 +2,52 @@ package com.example.demo.advices;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+
+@JsonPropertyOrder({ "timestamp", "apiError", "data" })
 public class ApiResponse<T> {
 	
-	
 	private LocalDateTime timestamp;
-	
+	private ApiError apiError;
 	private T data;
-	
-	private ApiError error;
 	
 	public ApiResponse() {
 		this.timestamp = LocalDateTime.now();
 	}
 	
 	public ApiResponse(T data) {
+		this();
 		this.data = data;
 	}
 	
-	public ApiResponse(ApiError error) {
-		this.error = error;
+	public ApiResponse(ApiError apiError) {
+		this();
+		this.apiError = apiError;
 	}
-	
+
+	public LocalDateTime getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(LocalDateTime timestamp) {
+		this.timestamp = timestamp;
+	}
+
+	public ApiError getApiError() {
+		return apiError;
+	}
+
+	public void setApiError(ApiError apiError) {
+		this.apiError = apiError;
+	}
+
+	public T getData() {
+		return data;
+	}
+
+	public void setData(T data) {
+		this.data = data;
+	}
+
 }

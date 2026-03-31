@@ -14,6 +14,7 @@ import jakarta.persistence.*;
 public class RideRequest {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@Column(columnDefinition = "Geometry(Point, 4326)")
@@ -34,14 +35,14 @@ public class RideRequest {
 	@Enumerated(EnumType.STRING)
 	private RideRequestStatus rideRequestStatus;
 	
-	private Double fair;
+	private Double fare;
 	
 	public RideRequest() {
 		
 	}
 
 	public RideRequest(Long id, Point pickupLocation, Point dropOffLocation, LocalDateTime requestTime, Rider rider,
-			PaymentMethod paymentMethod, RideRequestStatus rideRequestStatus) {
+			PaymentMethod paymentMethod, RideRequestStatus rideRequestStatus, Double fare) {
 		super();
 		this.id = id;
 		this.pickupLocation = pickupLocation;
@@ -50,6 +51,7 @@ public class RideRequest {
 		this.rider = rider;
 		this.paymentMethod = paymentMethod;
 		this.rideRequestStatus = rideRequestStatus;
+		this.fare = fare;
 	}
 
 	public Long getId() {
@@ -100,12 +102,12 @@ public class RideRequest {
 		this.paymentMethod = paymentMethod;
 	}
 
-	public Double getFair() {
-		return fair;
+	public Double getFare() {
+		return fare;
 	}
 
-	public void setFair(Double fair) {
-		this.fair = fair;
+	public void setFare(Double fare) {
+		this.fare = fare;
 	}
 
 	public RideRequestStatus getRideRequestStatus() {
@@ -120,7 +122,7 @@ public class RideRequest {
 	public String toString() {
 		return "RideRequest [id=" + id + ", pickupLocation=" + pickupLocation + ", dropOffLocation=" + dropOffLocation
 				+ ", requestTime=" + requestTime + ", rider=" + rider + ", paymentMethod=" + paymentMethod
-				+ ", rideRequestStatus=" + rideRequestStatus + "]";
+				+ ", rideRequestStatus=" + rideRequestStatus + ", fare=" + fare + "]";
 	}
 	
 }

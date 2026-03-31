@@ -1,21 +1,20 @@
 package com.example.demo.advices;
 
 
+import lombok.Builder;
+import lombok.Data;
 import org.springframework.http.HttpStatus;
 
+
+@Data
+@Builder
 public class ApiError {
 	
-	private String message;
-	private HttpStatus status;
-	
+	String message;
+	HttpStatus status;
+
 	public ApiError() {
 		// TODO Auto-generated constructor stub
-	}
-
-	public ApiError(String message, HttpStatus status) {
-		super();
-		this.message = message;
-		this.status = status;
 	}
 
 	public String getMessage() {
@@ -33,5 +32,12 @@ public class ApiError {
 	public void setStatus(HttpStatus status) {
 		this.status = status;
 	}
- 	
+
+	public ApiError(String message, HttpStatus status) {
+		super();
+		this.message = message;
+		this.status = status;
+	}
+
 }
+

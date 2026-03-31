@@ -20,7 +20,7 @@ public class Driver {
 	private User user;
 	
 	@Column
-	private Boolean isAvaliable;
+	private Boolean isAvailable;
 	
 	@Column(columnDefinition = "Geometry(Point, 4326)") // Earth co-ordinate [4326] // for hibernate
 	private Point currentLocation; // support for longitude and latitude
@@ -32,12 +32,12 @@ public class Driver {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Driver(Long id, Double rating, User user, Boolean isAvaliable, Point currentLocation) {
+	public Driver(Long id, Double rating, User user, Boolean isAvailable, Point currentLocation) {
 		super();
 		this.id = id;
 		this.rating = rating;
 		this.user = user;
-		this.isAvaliable = isAvaliable;
+		this.isAvailable = isAvailable;
 		this.currentLocation = currentLocation;
 	}
 
@@ -66,11 +66,11 @@ public class Driver {
 	}
 
 	public Boolean getIsAvaliable() {
-		return isAvaliable;
+		return isAvailable;
 	}
 
-	public void setIsAvaliable(Boolean isAvaliable) {
-		this.isAvaliable = isAvaliable;
+	public void setIsAvaliable(Boolean isAvailable) {
+		this.isAvailable = isAvailable;
 	}
 
 	public Point getCurrentLocation() {
