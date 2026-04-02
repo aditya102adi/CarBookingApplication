@@ -24,7 +24,6 @@ public class RiderController {
 	public ResponseEntity<RideRequestDTO> requestRide(@RequestBody RideRequestDTO rideRequestDTO) {
 		
 		System.err.println("From Controller: " + rideRequestDTO);
-		
 		return ResponseEntity.ok(riderService.requestRide(rideRequestDTO));
 	}
 }

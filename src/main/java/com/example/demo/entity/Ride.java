@@ -48,10 +48,10 @@ public class Ride {
 	private RideStatus rideStatus; 
 	
 	@Column
-	private Double fair;
+	private Double fare;
 	
 	@Column
-	private LocalDateTime startAt; // uses OTP and start the ride
+	private LocalDateTime startedAt; // uses OTP and start the ride
 	
 	@Column
 	private LocalDateTime endedAt; 
@@ -122,20 +122,20 @@ public class Ride {
 		this.rideStatus = rideStatus;
 	}
 
-	public Double getFair() {
-		return fair;
+	public Double getFare() {
+		return fare;
 	}
 
-	public void setFair(Double fair) {
-		this.fair = fair;
+	public void setFare(Double fare) {
+		this.fare = fare;
 	}
 
 	public LocalDateTime getStartAt() {
-		return startAt;
+		return startedAt;
 	}
 
 	public void setStartAt(LocalDateTime startAt) {
-		this.startAt = startAt;
+		this.startedAt = startAt;
 	}
 
 	public LocalDateTime getEndedAt() {
@@ -154,12 +154,9 @@ public class Ride {
 		this.otp = otp;
 	}
 
-
-
 	public LocalDateTime getCreatedTime() {
 		return createdTime;
 	}
-
 
 
 	public void setCreatedTime(LocalDateTime createdTime) {

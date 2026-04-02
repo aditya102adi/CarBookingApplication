@@ -17,7 +17,6 @@ import com.example.demo.repository.RiderRepository;
 import com.example.demo.service.RiderService;
 import com.example.demo.startegies.RideStratergyManager;
 
-import jakarta.transaction.Transactional;
 
 
 @Service

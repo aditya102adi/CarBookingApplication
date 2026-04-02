@@ -6,19 +6,17 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.ModelMap;
-
 import com.example.demo.dto.RideRequestDTO;
 import com.example.demo.entity.Driver;
 import com.example.demo.entity.Ride;
 import com.example.demo.entity.RideRequest;
 import com.example.demo.entity.enums.RideRequestStatus;
 import com.example.demo.entity.enums.RideStatus;
+import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.repository.RideRepository;
 import com.example.demo.service.RideRequestService;
 import com.example.demo.service.RideService;
 
-import jakarta.transaction.Transactional;
 
 
 @Service
@@ -38,8 +36,8 @@ public class RideServiceImple implements RideService {
 	
 	@Override
 	public Ride getRideById(Long rideID) {
-		// TODO Auto-generated method stub
-		return null;
+		return rideRepository.findById(rideID).
+				orElseThrow(()-> new ResourceNotFoundException("'Ride not found with Id: " + rideID));
 	}
 
 	@Override
@@ -54,25 +52,21 @@ public class RideServiceImple implements RideService {
 		rideRequest.setRideRequestStatus(RideRequestStatus.BOOKED);
 		
 		Ride ride = modelMapper.map(rideRequest, Ride.class);
-		
-		System.err.println("Ride is created with ID: " + ride.getId());
-		
 		ride.setRideStatus(RideStatus.CONFIRMED);
 		ride.setDriver(driver);
+		ride.setOtp(generateRandomOtp());
 		
-		String otp = generateRandomOtp();
-		ride.setOtp(otp);
-		//ride.setId(null);
+		System.out.println("Ride fare" + ride.getFare());
 		
-		
-		rideRequestService.updateRideRequest(rideRequest);
+		rideRequestService.update(rideRequest);
 		return rideRepository.save(ride);
 	}
 
 	@Override
-	public Ride updateRideStatus(Long rideId, RideStatus rideStatus) {
-		// TODO Auto-generated method stub
-		return null;
+	public Ride updateRideStatus(Ride ride, RideStatus rideStatus) {
+		
+		ride.setRideStatus(rideStatus);
+		return rideRepository.save(ride);
 	}
 
 	@Override

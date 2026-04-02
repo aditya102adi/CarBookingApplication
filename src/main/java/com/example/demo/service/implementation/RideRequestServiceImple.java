@@ -27,12 +27,10 @@ public class RideRequestServiceImple implements RideRequestService {
 	}
 	
 	@Override
-	public void updateRideRequest(RideRequest rideRequest) {
-		
-		rideRequestRepository.findById(rideRequest.getId()).
-			orElseThrow(() -> new ResourceNotFoundException("Riderequest not found with id: " + rideRequest.getId()));
-		
-		rideRequestRepository.save(rideRequest);
-	}
+    public void update(RideRequest rideRequest) {
+        rideRequestRepository.findById(rideRequest.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("RideRequest not found with id: "+rideRequest.getId()));
+        rideRequestRepository.save(rideRequest);
+    }
 	
 }

@@ -1,16 +1,17 @@
 package com.example.demo.service.implementation;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-
 import com.example.demo.dto.DriverDTO;
 import com.example.demo.dto.RideDTO;
 import com.example.demo.entity.Driver;
 import com.example.demo.entity.Ride;
 import com.example.demo.entity.RideRequest;
 import com.example.demo.entity.enums.RideRequestStatus;
+import com.example.demo.entity.enums.RideStatus;
 import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.repository.DriverRepository;
 import com.example.demo.service.DriverService;
@@ -44,7 +45,10 @@ public class DriverServiceImple implements DriverService {
 	@Override
     @Transactional
     public RideDTO acceptRide(Long rideRequestId) {
-        RideRequest rideRequest = rideRequestService.findRideRequestById(rideRequestId);
+        
+		RideRequest rideRequest = rideRequestService.findRideRequestById(rideRequestId);
+		
+		System.out.println(rideRequest.getFare());
 
         if(!rideRequest.getRideRequestStatus().equals(RideRequestStatus.PENDING)) {
             throw new RuntimeException("RideRequest cannot be accepted, status is "+ rideRequest.getRideRequestStatus());
@@ -54,10 +58,12 @@ public class DriverServiceImple implements DriverService {
         if(!currentDriver.getIsAvaliable()) {
             throw new RuntimeException("Driver cannot accept ride due to unavailability");
         }
-
+        
+        currentDriver.setIsAvaliable(false);
+        Driver savedDriver = driverRepository.save(currentDriver);
         
 
-        Ride ride = rideService.createNewRide(rideRequest, currentDriver);
+        Ride ride = rideService.createNewRide(rideRequest, savedDriver);        
         return modelMapper.map(ride, RideDTO.class);
     }
 
@@ -68,9 +74,30 @@ public class DriverServiceImple implements DriverService {
 	}
 
 	@Override
-	public RideDTO startRide(Long rideId) {
-		// TODO Auto-generated method stub
-		return null;
+	public RideDTO startRide(Long rideId, String otp) {
+		
+		Ride ride = rideService.getRideById(rideId);
+		Driver driver = getCurrentDriver();
+		
+		if(!driver.equals(ride.getDriver())) {
+			throw new RuntimeException("Driver cannot start a start as he has accepted it earlier");
+		}
+		
+		if(!ride.getRideStatus().equals(RideStatus.CONFIRMED))
+			throw new RuntimeException("Ride is not available, Ride status is: " + ride.getRideStatus());
+		
+		
+		if(!otp.equals(ride.getOtp())) {
+			throw new RuntimeException("Otp is not valid");
+		}
+		
+		ride.setStartAt(LocalDateTime.now());
+		Ride savedRide = rideService.updateRideStatus(ride, RideStatus.ONGOING);
+		
+		RideDTO startedRide = modelMapper.map(savedRide, RideDTO.class);
+		startedRide.setStartedAt(ride.getStartAt());
+		
+		return startedRide;
 	}
 
 	@Override

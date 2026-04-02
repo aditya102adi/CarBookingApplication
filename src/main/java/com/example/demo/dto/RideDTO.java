@@ -3,7 +3,6 @@ package com.example.demo.dto;
 import java.time.LocalDateTime;
 
 
-import com.example.demo.entity.Driver;
 import com.example.demo.entity.enums.PaymentMethod;
 import com.example.demo.entity.enums.RideStatus;
 
@@ -29,8 +28,6 @@ public class RideDTO {
     
     private LocalDateTime endedAt;
 	
-	
-    
     
     public RideDTO() {
 		
