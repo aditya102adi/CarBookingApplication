@@ -1,15 +1,12 @@
 package com.example.demo.service.implementation;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.DriverDTO;
-import com.example.demo.dto.PointDTO;
 import com.example.demo.dto.RideDTO;
-import com.example.demo.dto.RiderDTO;
 import com.example.demo.entity.Driver;
 import com.example.demo.entity.Ride;
 import com.example.demo.entity.RideRequest;
@@ -111,39 +108,5 @@ public class DriverServiceImple implements DriverService {
 		return driverRepository.findById(2L).
 				orElseThrow(() -> new ResourceNotFoundException("Current Driver Not Found"));
 	}
-	
-	
-	private RideDTO createDemoRideDTO() {
-		RideDTO rideDTO = new RideDTO();
-
-		rideDTO.setId(101L);
-
-		
-		rideDTO.setPickupLocation(
-		    new PointDTO(new double[]{77.5946, 12.9716})
-		);
-
-		// Drop Location
-		rideDTO.setDropOffLocation(
-		    new PointDTO(new double[]{77.6200, 12.9352})
-		);
-
-		// Time
-		rideDTO.setCreatedTime(LocalDateTime.now());
-
-
-		// OTP
-		rideDTO.setOtp("4832");
-
-		// Fare
-		rideDTO.setFare(245.50);
-
-		// Ride timing
-		rideDTO.setStartedAt(null);
-		rideDTO.setEndedAt(null);
-		
-		return rideDTO;
-	}
-	
 	
 }
