@@ -3,6 +3,9 @@ package com.example.demo.advices;
 
 import lombok.Builder;
 import lombok.Data;
+
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 
 
@@ -10,8 +13,9 @@ import org.springframework.http.HttpStatus;
 @Builder
 public class ApiError {
 	
-	String message;
-	HttpStatus status;
+	private String message;
+	private HttpStatus status;
+	private List<String> subErrors;
 
 	public ApiError() {
 		// TODO Auto-generated constructor stub
@@ -32,11 +36,21 @@ public class ApiError {
 	public void setStatus(HttpStatus status) {
 		this.status = status;
 	}
+	
 
-	public ApiError(String message, HttpStatus status) {
+	public List<String> getSubErrors() {
+		return subErrors;
+	}
+
+	public void setSubErrors(List<String> subErrors) {
+		this.subErrors = subErrors;
+	}
+
+	public ApiError(String message, HttpStatus status, List<String> subErros) {
 		super();
 		this.message = message;
 		this.status = status;
+		this.subErrors = subErros;
 	}
 
 }

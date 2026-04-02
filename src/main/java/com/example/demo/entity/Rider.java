@@ -54,4 +54,7 @@ public class Rider {
 		this.user = user;
 	}
 	
+	
+	
+	
 }

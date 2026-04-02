@@ -6,6 +6,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.RideRequestDTO;
+import com.example.demo.entity.Driver;
 import com.example.demo.entity.RideRequest;
 import com.example.demo.entity.Rider;
 import com.example.demo.entity.User;
@@ -43,12 +44,12 @@ public class RiderServiceImple implements RiderService {
 	
 	
 	@Override
-	@Transactional
 	public RideRequestDTO requestRide(RideRequestDTO rideRequestDTO) {
 		
 		Rider rider = getCurrentRider();
 		
 		RideRequest rideRequest = modelMapper.map(rideRequestDTO, RideRequest.class);
+		
 		rideRequest.setRideRequestStatus(RideRequestStatus.PENDING);
 		
 		rideRequest.setRider(rider);
@@ -58,8 +59,9 @@ public class RiderServiceImple implements RiderService {
 		
 		RideRequest savedRideRequest = rideRequestRepository.save(rideRequest);
 		
-		//BROADCAST THE MESSAGE TO ALL THE DRIVER 
-		rideStratergyManager.driverMatchingStratergy(rider.getRating()).findMatchingDriver(rideRequest);
+		// TODO : Send notification to all the drivers about the current RIDE
+		
+		List<Driver> drivers = rideStratergyManager.driverMatchingStratergy(rider.getRating()).findMatchingDriver(rideRequest);
 		
 		return modelMapper.map(savedRideRequest, RideRequestDTO.class);
 	}

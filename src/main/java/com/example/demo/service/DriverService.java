@@ -4,10 +4,11 @@ import java.util.List;
 
 import com.example.demo.dto.DriverDTO;
 import com.example.demo.dto.RideDTO;
+import com.example.demo.entity.Driver;
 
 public interface DriverService {
 	
-	RideDTO acceptRide(Long rideId);
+	RideDTO acceptRide(Long rideRequestId);
 	
 	RideDTO cancelRide(Long rideId);
 	
@@ -22,5 +23,7 @@ public interface DriverService {
 	DriverDTO getMyProfile();
 	
 	List<RideDTO> getAllMyRides();
+	
+	Driver getCurrentDriver();
 	
 }	

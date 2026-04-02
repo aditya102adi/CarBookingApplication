@@ -14,27 +14,24 @@ public class MapperConfig {
 	
 	@Bean
     public ModelMapper modelMapper() {
-        
-		ModelMapper mapper = new ModelMapper();
-		
-		// convert pointDTO -> Point
-		mapper.typeMap(PointDTO.class, Point.class).setConverter(context -> {
-			PointDTO pointDTO = context.getSource();
-			return GeometryUtil.createPoint(pointDTO);
-		});
-		
-		
-		// Point to PointDTO
-		mapper.typeMap(Point.class, PointDTO.class).setConverter(context -> {
-			Point point = context.getSource();
-			
-			// Extract the longitude and latitude and store in the array
-			double[] coordinates =  { point.getX(), point.getY() };
-			
-			return new PointDTO(coordinates);
-		});
-		
-		return mapper;
+        ModelMapper mapper = new ModelMapper();
+
+        mapper.typeMap(PointDTO.class, Point.class).setConverter(context -> {
+            PointDTO pointDto = context.getSource();
+            return GeometryUtil.createPoint(pointDto);
+        });
+
+        mapper.typeMap(Point.class, PointDTO.class).setConverter(context -> {
+            Point point = context.getSource();
+            double coordinates[] = {
+                    point.getX(),
+                    point.getY()
+            };
+            return new PointDTO(coordinates);
+        });
+
+
+        return mapper;
     }
 	
 }

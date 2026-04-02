@@ -1,22 +1,68 @@
 package com.example.demo.service.implementation;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.DriverDTO;
+import com.example.demo.dto.PointDTO;
 import com.example.demo.dto.RideDTO;
+import com.example.demo.dto.RiderDTO;
+import com.example.demo.entity.Driver;
+import com.example.demo.entity.Ride;
+import com.example.demo.entity.RideRequest;
+import com.example.demo.entity.enums.RideRequestStatus;
+import com.example.demo.exceptions.ResourceNotFoundException;
+import com.example.demo.repository.DriverRepository;
 import com.example.demo.service.DriverService;
+import com.example.demo.service.RideRequestService;
+import com.example.demo.service.RideService;
+
+import jakarta.transaction.Transactional;
 
 
 @Service
 public class DriverServiceImple implements DriverService {
 
-	@Override
-	public RideDTO acceptRide(Long rideId) {
-		// TODO Auto-generated method stub
-		return null;
+
+	private final RideRequestService rideRequestService;
+    private final DriverRepository driverRepository;
+    private final RideService rideService;
+    private final ModelMapper modelMapper;
+	
+	public DriverServiceImple(DriverRepository driverRepository, 
+			RideRequestService rideRequestService, 
+			RideService rideService, 
+			ModelMapper modelMapper) {
+		this.driverRepository = driverRepository;
+		this.rideRequestService = rideRequestService;
+		this.rideService = rideService;
+		this.modelMapper = modelMapper;
+		
 	}
+	
+	
+	@Override
+    @Transactional
+    public RideDTO acceptRide(Long rideRequestId) {
+        RideRequest rideRequest = rideRequestService.findRideRequestById(rideRequestId);
+
+        if(!rideRequest.getRideRequestStatus().equals(RideRequestStatus.PENDING)) {
+            throw new RuntimeException("RideRequest cannot be accepted, status is "+ rideRequest.getRideRequestStatus());
+        }
+
+        Driver currentDriver = getCurrentDriver();
+        if(!currentDriver.getIsAvaliable()) {
+            throw new RuntimeException("Driver cannot accept ride due to unavailability");
+        }
+
+        
+
+        Ride ride = rideService.createNewRide(rideRequest, currentDriver);
+        return modelMapper.map(ride, RideDTO.class);
+    }
 
 	@Override
 	public RideDTO cancelRide(Long rideId) {
@@ -58,6 +104,45 @@ public class DriverServiceImple implements DriverService {
 	public List<RideDTO> getAllMyRides() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	@Override
+	public Driver getCurrentDriver() {
+		return driverRepository.findById(2L).
+				orElseThrow(() -> new ResourceNotFoundException("Current Driver Not Found"));
+	}
+	
+	
+	private RideDTO createDemoRideDTO() {
+		RideDTO rideDTO = new RideDTO();
+
+		rideDTO.setId(101L);
+
+		
+		rideDTO.setPickupLocation(
+		    new PointDTO(new double[]{77.5946, 12.9716})
+		);
+
+		// Drop Location
+		rideDTO.setDropOffLocation(
+		    new PointDTO(new double[]{77.6200, 12.9352})
+		);
+
+		// Time
+		rideDTO.setCreatedTime(LocalDateTime.now());
+
+
+		// OTP
+		rideDTO.setOtp("4832");
+
+		// Fare
+		rideDTO.setFare(245.50);
+
+		// Ride timing
+		rideDTO.setStartedAt(null);
+		rideDTO.setEndedAt(null);
+		
+		return rideDTO;
 	}
 	
 	

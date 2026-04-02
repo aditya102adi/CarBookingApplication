@@ -10,7 +10,7 @@ import com.example.demo.dto.RideRequestDTO;
 import com.example.demo.service.RiderService;
 
 @RestController
-@RequestMapping("/rider")
+@RequestMapping("/riders")
 public class RiderController {
 	
 	private final RiderService riderService;

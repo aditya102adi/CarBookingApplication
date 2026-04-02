@@ -11,14 +11,13 @@ import com.example.demo.dto.PointDTO;
 
 public class GeometryUtil {
 	
-	public static Point createPoint(PointDTO pointDTO) {
-		GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(), 4326);
-		
-		Coordinate coordinate = new Coordinate(
-				pointDTO.getCoordinates()[0],	// longitude
-				pointDTO.getCoordinates()[1]);	// latitude
-		
-		return geometryFactory.createPoint(coordinate);
-	}
+	public static Point createPoint(PointDTO pointDto) {
+        GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(), 4326);
+        Coordinate coordinate = new Coordinate(
+        		pointDto.getCoordinates()[0],
+                pointDto.getCoordinates()[1]
+                );
+        return geometryFactory.createPoint(coordinate);
+    }
 	
 }

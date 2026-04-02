@@ -31,5 +31,10 @@ public class RiderDTO {
 	public void setRating(Double rating) {
 		this.rating = rating;
 	}
+
+	@Override
+	public String toString() {
+		return "RiderDTO [user=" + user + ", rating=" + rating + "]";
+	}
 	
 }

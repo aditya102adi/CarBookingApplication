@@ -33,7 +33,7 @@ public class Ride {
 	private Point dropOffLocation;
 	
 	@CreationTimestamp
-	private LocalDateTime requestTime; // when driver accept the ride
+	private LocalDateTime createdTime; // when driver accept the ride
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Rider rider;
@@ -56,26 +56,13 @@ public class Ride {
 	@Column
 	private LocalDateTime endedAt; 
 	
+	@Column
+	private String otp;
+	
 	public Ride() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Ride(Long id, Point pickupLocation, Point dropOffLocation, LocalDateTime requestTime, Rider rider,
-			Driver driver, PaymentMethod paymentMethod, RideStatus rideStatus, Double fair, LocalDateTime startAt,
-			LocalDateTime endedAt) {
-		super();
-		this.id = id;
-		this.pickupLocation = pickupLocation;
-		this.dropOffLocation = dropOffLocation;
-		this.requestTime = requestTime;
-		this.rider = rider;
-		this.driver = driver;
-		this.paymentMethod = paymentMethod;
-		this.rideStatus = rideStatus;
-		this.fair = fair;
-		this.startAt = startAt;
-		this.endedAt = endedAt;
-	}
 
 
 	public Long getId() {
@@ -102,13 +89,6 @@ public class Ride {
 		this.dropOffLocation = dropOffLocation;
 	}
 
-	public LocalDateTime getRequestTime() {
-		return requestTime;
-	}
-
-	public void setRequestTime(LocalDateTime requestTime) {
-		this.requestTime = requestTime;
-	}
 
 	public Rider getRider() {
 		return rider;
@@ -164,6 +144,26 @@ public class Ride {
 
 	public void setEndedAt(LocalDateTime endedAt) {
 		this.endedAt = endedAt;
+	}
+
+	public String getOtp() {
+		return otp;
+	}
+
+	public void setOtp(String otp) {
+		this.otp = otp;
+	}
+
+
+
+	public LocalDateTime getCreatedTime() {
+		return createdTime;
+	}
+
+
+
+	public void setCreatedTime(LocalDateTime createdTime) {
+		this.createdTime = createdTime;
 	}
 	
 }

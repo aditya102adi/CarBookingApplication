@@ -1,5 +1,5 @@
 package com.example.demo.entity.enums;
 
 public enum TransactionMethod {
-	BANKING, W2W
+	BANKING, CARD, UPI, WALLET, CASH
 }

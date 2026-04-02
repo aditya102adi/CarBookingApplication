@@ -2,7 +2,6 @@ package com.example.demo.dto;
 
 import java.time.LocalDateTime;
 
-import org.locationtech.jts.geom.Point;
 
 import com.example.demo.entity.Driver;
 import com.example.demo.entity.enums.PaymentMethod;
@@ -12,164 +11,144 @@ import com.example.demo.entity.enums.RideStatus;
 public class RideDTO {
 	
 	private Long id;
-	private Point pickupLocation;
-	private Point dropOffLocation;
+	private PointDTO pickupLocation;
+	private PointDTO dropOffLocation;
 	
-	private LocalDateTime requestTime; // when driver accept the ride
+	private LocalDateTime createdTime; // when driver accept the ride
 	private RiderDTO rider;
-	private Driver driver;
+	private DriverDTO driver;
 	private PaymentMethod paymentMethod;
-	
 	
 	private RideStatus rideStatus; 
 	
-	private String otp;
-	
-	public String getOtp() {
-		return otp;
-	}
+    private String otp;
 
-
-	public void setOtp(String otp) {
-		this.otp = otp;
-	}
-
-
-	private Double fair;
-	private LocalDateTime startAt; // uses OTP and start the ride
-	private LocalDateTime endedAt;
+    private Double fare;
+    
+    private LocalDateTime startedAt;
+    
+    private LocalDateTime endedAt;
 	
 	
-	public RideDTO() {
-		// TODO Auto-generated constructor stub
+    
+    
+    public RideDTO() {
+		
 	}
 
-
-	public RideDTO(Long id, Point pickupLocation, Point dropOffLocation, LocalDateTime requestTime, RiderDTO rider,
-			Driver driver, PaymentMethod paymentMethod, RideStatus rideStatus, Double fair, LocalDateTime startAt,
-			LocalDateTime endedAt) {
+	public RideDTO(Long id, PointDTO pickupLocation, PointDTO dropOffLocation, LocalDateTime createdTime,
+			RiderDTO rider, DriverDTO driver, PaymentMethod paymentMethod, RideStatus rideStatus, String otp, Double fare,
+			LocalDateTime startedAt, LocalDateTime endedAt) {
 		super();
 		this.id = id;
 		this.pickupLocation = pickupLocation;
 		this.dropOffLocation = dropOffLocation;
-		this.requestTime = requestTime;
+		this.createdTime = createdTime;
 		this.rider = rider;
 		this.driver = driver;
 		this.paymentMethod = paymentMethod;
 		this.rideStatus = rideStatus;
-		this.fair = fair;
-		this.startAt = startAt;
+		this.otp = otp;
+		this.fare = fare;
+		this.startedAt = startedAt;
 		this.endedAt = endedAt;
 	}
-
 
 	public Long getId() {
 		return id;
 	}
 
-
 	public void setId(Long id) {
 		this.id = id;
 	}
 
-
-	public Point getPickupLocation() {
+	public PointDTO getPickupLocation() {
 		return pickupLocation;
 	}
 
-
-	public void setPickupLocation(Point pickupLocation) {
+	public void setPickupLocation(PointDTO pickupLocation) {
 		this.pickupLocation = pickupLocation;
 	}
 
-
-	public Point getDropOffLocation() {
+	public PointDTO getDropOffLocation() {
 		return dropOffLocation;
 	}
 
-
-	public void setDropOffLocation(Point dropOffLocation) {
+	public void setDropOffLocation(PointDTO dropOffLocation) {
 		this.dropOffLocation = dropOffLocation;
 	}
 
-
-	public LocalDateTime getRequestTime() {
-		return requestTime;
+	public LocalDateTime getCreatedTime() {
+		return createdTime;
 	}
 
-
-	public void setRequestTime(LocalDateTime requestTime) {
-		this.requestTime = requestTime;
+	public void setCreatedTime(LocalDateTime createdTime) {
+		this.createdTime = createdTime;
 	}
-
 
 	public RiderDTO getRider() {
 		return rider;
 	}
 
-
 	public void setRider(RiderDTO rider) {
 		this.rider = rider;
 	}
 
-
-	public Driver getDriver() {
+	public DriverDTO getDriver() {
 		return driver;
 	}
 
-
-	public void setDriver(Driver driver) {
+	public void setDriver(DriverDTO driver) {
 		this.driver = driver;
 	}
-
 
 	public PaymentMethod getPaymentMethod() {
 		return paymentMethod;
 	}
 
-
 	public void setPaymentMethod(PaymentMethod paymentMethod) {
 		this.paymentMethod = paymentMethod;
 	}
-
 
 	public RideStatus getRideStatus() {
 		return rideStatus;
 	}
 
-
 	public void setRideStatus(RideStatus rideStatus) {
 		this.rideStatus = rideStatus;
 	}
 
-
-	public Double getFair() {
-		return fair;
+	public String getOtp() {
+		return otp;
 	}
 
-
-	public void setFair(Double fair) {
-		this.fair = fair;
+	public void setOtp(String otp) {
+		this.otp = otp;
 	}
 
-
-	public LocalDateTime getStartAt() {
-		return startAt;
+	public Double getFare() {
+		return fare;
 	}
 
-
-	public void setStartAt(LocalDateTime startAt) {
-		this.startAt = startAt;
+	public void setFare(Double fare) {
+		this.fare = fare;
 	}
 
+	public LocalDateTime getStartedAt() {
+		return startedAt;
+	}
+
+	public void setStartedAt(LocalDateTime startedAt) {
+		this.startedAt = startedAt;
+	}
 
 	public LocalDateTime getEndedAt() {
 		return endedAt;
 	}
 
-
 	public void setEndedAt(LocalDateTime endedAt) {
 		this.endedAt = endedAt;
 	}
+	
 	
 }

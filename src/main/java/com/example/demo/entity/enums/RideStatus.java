@@ -1,5 +1,5 @@
 package com.example.demo.entity.enums;
 
 public enum RideStatus {
-	CANCELLED, CONFORMED, ENDED, ONGOING
+	CANCELLED, CONFIRMED, ENDED, ONGOING
 }

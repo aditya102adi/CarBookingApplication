@@ -5,6 +5,7 @@ import org.springframework.data.domain.PageRequest;
 
 import com.example.demo.dto.RideRequestDTO;
 import com.example.demo.entity.Ride;
+import com.example.demo.entity.RideRequest;
 import com.example.demo.entity.enums.RideStatus;
 import com.example.demo.entity.Driver;
 
@@ -14,7 +15,7 @@ public interface RideService {
 	
 	void matchWithDriver(RideRequestDTO rideRequestDTO);
 	
-	Ride createNewRide(RideRequestDTO rideRequestDTO, Driver driver);
+	Ride createNewRide(RideRequest rideRequest, Driver driver);
 	
 	Ride updateRideStatus(Long rideId, RideStatus rideStatus);
 	
