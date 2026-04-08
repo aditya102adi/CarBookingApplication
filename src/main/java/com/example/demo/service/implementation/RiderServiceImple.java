@@ -3,43 +3,44 @@ package com.example.demo.service.implementation;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.dto.DriverDTO;
+import com.example.demo.dto.RideDTO;
 import com.example.demo.dto.RideRequestDTO;
+import com.example.demo.dto.RiderDTO;
 import com.example.demo.entity.Driver;
+import com.example.demo.entity.Ride;
 import com.example.demo.entity.RideRequest;
 import com.example.demo.entity.Rider;
 import com.example.demo.entity.User;
 import com.example.demo.entity.enums.RideRequestStatus;
+import com.example.demo.entity.enums.RideStatus;
 import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.repository.RideRequestRepository;
 import com.example.demo.repository.RiderRepository;
+import com.example.demo.service.DriverService;
+import com.example.demo.service.RideService;
 import com.example.demo.service.RiderService;
 import com.example.demo.startegies.RideStratergyManager;
 
+import lombok.RequiredArgsConstructor;
 
 
 @Service
+@RequiredArgsConstructor
 public class RiderServiceImple implements RiderService {
 	
 	private final ModelMapper modelMapper;
 	private final RideStratergyManager  rideStratergyManager;
 	private final RideRequestRepository rideRequestRepository;
 	private final RiderRepository riderRepository;
+	private final RideService rideService;
+	private final DriverService driverService;
 	
 	
-	public RiderServiceImple(
-			ModelMapper modelMapper, 
-			RideStratergyManager rideStratergyManager,
-			RideRequestRepository rideRequestRepository,
-			RiderRepository riderRepository) {
-		
-		
-		this.modelMapper = modelMapper;
-		this.rideStratergyManager = rideStratergyManager;
-		this.rideRequestRepository = rideRequestRepository;
-		this.riderRepository = riderRepository;
-	}
 	
 	
 	@Override
@@ -66,22 +67,39 @@ public class RiderServiceImple implements RiderService {
 	}
 
 	@Override
-	public RideRequestDTO cancelRide(Long rideId) {
-		// TODO Auto-generated method stub
-		return null;
+	public RideDTO cancelRide(Long rideId) {
+		Rider rider = getCurrentRider();
+		Ride ride = rideService.getRideById(rideId);
+		
+		if(!rider.equals(ride.getRider())) {
+            throw new RuntimeException(("Rider does not own this ride with id: "+rideId));
+        }
+
+        if(!ride.getRideStatus().equals(RideStatus.CONFIRMED)) {
+            throw new RuntimeException("Ride cannot be cancelled, invalid status: "+ride.getRideStatus());
+        }
+        
+        Ride savedRide = rideService.updateRideStatus(ride, RideStatus.CANCELLED);
+        driverService.updateDriverAvailability(ride.getDriver(), true);
+
+        return modelMapper.map(savedRide, RideDTO.class);
 	}
 
 	@Override
-	public RideRequestDTO rateDriver(Long rideId, Integer rating) {
-		// TODO Auto-generated method stub
-		return null;
+	public Page<RideDTO> getAllMyRides(PageRequest pageRequest) {
+		Rider currentRider = getCurrentRider();
+        return rideService.getAllRidesOfRider(currentRider, pageRequest).map(
+                ride -> modelMapper.map(ride, RideDTO.class)
+        );
 	}
-
+	
 	@Override
-	public List<RideRequestDTO> getAllMyRides() {
-		// TODO Auto-generated method stub
-		return null;
+	public RiderDTO getMyProfile() {
+		Rider currentRider = getCurrentRider();
+        return modelMapper.map(currentRider, RiderDTO.class);
 	}
+	
+	
 	
 	@Override
 	public Rider createNewRider(User user) {
@@ -95,6 +113,12 @@ public class RiderServiceImple implements RiderService {
 	public Rider getCurrentRider() {
 		return riderRepository.findById(1L).orElseThrow(
 				()-> new ResourceNotFoundException("Rider not found with ID: " + 1));
+	}
+
+	@Override
+	public DriverDTO rateDriver(Long rideId, Integer rating) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	

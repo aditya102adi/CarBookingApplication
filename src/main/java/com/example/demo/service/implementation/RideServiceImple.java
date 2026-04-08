@@ -6,10 +6,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import com.example.demo.dto.RideRequestDTO;
 import com.example.demo.entity.Driver;
 import com.example.demo.entity.Ride;
 import com.example.demo.entity.RideRequest;
+import com.example.demo.entity.Rider;
 import com.example.demo.entity.enums.RideRequestStatus;
 import com.example.demo.entity.enums.RideStatus;
 import com.example.demo.exceptions.ResourceNotFoundException;
@@ -17,21 +17,17 @@ import com.example.demo.repository.RideRepository;
 import com.example.demo.service.RideRequestService;
 import com.example.demo.service.RideService;
 
+import lombok.RequiredArgsConstructor;
 
 
 @Service
+@RequiredArgsConstructor
 public class RideServiceImple implements RideService {
-	
+
+
 	private final RideRepository rideRepository;
 	private final RideRequestService rideRequestService;
 	private final ModelMapper modelMapper;
-	
-	
-	public RideServiceImple(RideRepository rideRepository, RideRequestService rideRequestService, ModelMapper modelMapper) {
-		this.rideRepository = rideRepository;
-		this.rideRequestService = rideRequestService;
-		this.modelMapper = modelMapper;
-	}
 	
 	
 	@Override
@@ -40,12 +36,7 @@ public class RideServiceImple implements RideService {
 				orElseThrow(()-> new ResourceNotFoundException("'Ride not found with Id: " + rideID));
 	}
 
-	@Override
-	public void matchWithDriver(RideRequestDTO rideRequestDTO) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	
 	@Override
 	public Ride createNewRide(RideRequest rideRequest, Driver driver) {
 		
@@ -70,15 +61,13 @@ public class RideServiceImple implements RideService {
 	}
 
 	@Override
-	public Page<Ride> getAllRiderOfDriver(Long driverId, PageRequest pageRequest) {
-		// TODO Auto-generated method stub
-		return null;
+	public Page<Ride> getAllRidesOfDriver(Driver driver, PageRequest pageRequest) {
+		return rideRepository.findByDriver(driver, pageRequest);
 	}
-
+	
 	@Override
-	public Page<Ride> getAllRiderOfRider(Long riderId, PageRequest pageRequest) {
-		// TODO Auto-generated method stub
-		return null;
+	public Page<Ride> getAllRidesOfRider(Rider rider, PageRequest pageRequest) {
+		return rideRepository.findByRider(rider, pageRequest);
 	}
 	
 	
@@ -89,7 +78,5 @@ public class RideServiceImple implements RideService {
 		
 		return String.valueOf(num);
 	}
-	
-	
-	
+
 }

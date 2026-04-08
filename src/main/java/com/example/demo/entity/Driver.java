@@ -26,7 +26,8 @@ public class Driver {
 	private Point currentLocation; // support for longitude and latitude
 	
 	
-	
+	@Column
+	private String vechileID;
 	
 	public Driver() {
 		// TODO Auto-generated constructor stub

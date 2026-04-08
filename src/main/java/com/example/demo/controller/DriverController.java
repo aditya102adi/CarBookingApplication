@@ -11,17 +11,14 @@ import com.example.demo.dto.RideDTO;
 import com.example.demo.dto.RideStartDTO;
 import com.example.demo.service.DriverService;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/drivers")
 public class DriverController {
 	
-	
 	private final DriverService driverService;
-	
-	public DriverController(DriverService driverService) {
-		this.driverService = driverService;
-	}
-	
 	
 	@PostMapping("/acceptRide/{rideRequestId}")
     public ResponseEntity<RideDTO> acceptRide(@PathVariable Long rideRequestId) {
@@ -33,6 +30,11 @@ public class DriverController {
     											@RequestBody RideStartDTO rideStartDTO) {
 		
         return ResponseEntity.ok(driverService.startRide(rideRequestId, rideStartDTO.getOtp()));
+    }
+	
+	@PostMapping("/endRide/{rideId}")
+    public ResponseEntity<RideDTO> endRide(@PathVariable Long rideId) {
+        return ResponseEntity.ok(driverService.endRide(rideId));
     }
 	
 }
