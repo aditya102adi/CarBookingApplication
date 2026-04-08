@@ -7,15 +7,14 @@ import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.repository.RideRequestRepository;
 import com.example.demo.service.RideRequestService;
 
+import lombok.RequiredArgsConstructor;
 
+
+@RequiredArgsConstructor
 @Service
 public class RideRequestServiceImple implements RideRequestService {
 		
 	private final RideRequestRepository rideRequestRepository;
-	
-	public RideRequestServiceImple(RideRequestRepository rideRequestRepository) {
-		this.rideRequestRepository = rideRequestRepository;
-	}
 	
 	
 	@Override

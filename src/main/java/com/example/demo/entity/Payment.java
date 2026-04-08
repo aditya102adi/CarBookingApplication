@@ -8,8 +8,10 @@ import com.example.demo.entity.enums.PaymentMethod;
 import com.example.demo.entity.enums.PaymentStatus;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
+@Data
 public class Payment {
 	
 	@Id

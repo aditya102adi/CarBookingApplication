@@ -17,8 +17,13 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table
 public class Ride {
@@ -59,108 +64,5 @@ public class Ride {
 	@Column
 	private String otp;
 	
-	public Ride() {
-		// TODO Auto-generated constructor stub
-	}
-
-
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Point getPickupLocation() {
-		return pickupLocation;
-	}
-
-	public void setPickupLocation(Point pickupLocation) {
-		this.pickupLocation = pickupLocation;
-	}
-
-	public Point getDropOffLocation() {
-		return dropOffLocation;
-	}
-
-	public void setDropOffLocation(Point dropOffLocation) {
-		this.dropOffLocation = dropOffLocation;
-	}
-
-
-	public Rider getRider() {
-		return rider;
-	}
-
-	public void setRider(Rider rider) {
-		this.rider = rider;
-	}
-
-	public Driver getDriver() {
-		return driver;
-	}
-
-	public void setDriver(Driver driver) {
-		this.driver = driver;
-	}
-
-	public PaymentMethod getPaymentMethod() {
-		return paymentMethod;
-	}
-
-	public void setPaymentMethod(PaymentMethod paymentMethod) {
-		this.paymentMethod = paymentMethod;
-	}
-
-	public RideStatus getRideStatus() {
-		return rideStatus;
-	}
-
-	public void setRideStatus(RideStatus rideStatus) {
-		this.rideStatus = rideStatus;
-	}
-
-	public Double getFare() {
-		return fare;
-	}
-
-	public void setFare(Double fare) {
-		this.fare = fare;
-	}
-
-	public LocalDateTime getStartAt() {
-		return startedAt;
-	}
-
-	public void setStartAt(LocalDateTime startAt) {
-		this.startedAt = startAt;
-	}
-
-	public LocalDateTime getEndedAt() {
-		return endedAt;
-	}
-
-	public void setEndedAt(LocalDateTime endedAt) {
-		this.endedAt = endedAt;
-	}
-
-	public String getOtp() {
-		return otp;
-	}
-
-	public void setOtp(String otp) {
-		this.otp = otp;
-	}
-
-	public LocalDateTime getCreatedTime() {
-		return createdTime;
-	}
-
-
-	public void setCreatedTime(LocalDateTime createdTime) {
-		this.createdTime = createdTime;
-	}
 	
 }

@@ -44,7 +44,7 @@ public class DriverServiceImple implements DriverService {
 		}
 
 		Driver currentDriver = getCurrentDriver();
-		if (!currentDriver.getIsAvaliable()) {
+		if (!currentDriver.getIsAvailable()) {
 			throw new RuntimeException("Driver cannot accept ride due to unavailability");
 		}
 
@@ -94,11 +94,11 @@ public class DriverServiceImple implements DriverService {
 			throw new RuntimeException("Otp is not valid");
 		}
 
-		ride.setStartAt(LocalDateTime.now());
+		ride.setStartedAt(LocalDateTime.now());
 		Ride savedRide = rideService.updateRideStatus(ride, RideStatus.ONGOING);
 
 		RideDTO startedRide = modelMapper.map(savedRide, RideDTO.class);
-		startedRide.setStartedAt(ride.getStartAt());
+		startedRide.setStartedAt(ride.getStartedAt());
 
 		return modelMapper.map(savedRide, RideDTO.class);
 	}
@@ -157,7 +157,7 @@ public class DriverServiceImple implements DriverService {
 	@Override
 	public Driver updateDriverAvailability(Driver driver, boolean available) {
 
-		driver.setIsAvaliable(available);
+		driver.setIsAvailable(available);
 		return driverRepository.save(driver);
 
 	}

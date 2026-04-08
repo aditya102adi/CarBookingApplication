@@ -16,24 +16,17 @@ import com.example.demo.service.AuthService;
 import com.example.demo.service.RiderService;
 
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 
 
 @Service
+@RequiredArgsConstructor
 public class AuthServiceImple implements AuthService {
 	
 	private final ModelMapper modelMapper;
 	private final UserRepository userRepository;
 	private final RiderService riderService;
 	
-	public AuthServiceImple(
-			ModelMapper modelMapper, 
-			UserRepository userRepository, 
-			RiderService riderService ) {
-		
-		this.modelMapper = modelMapper;
-		this.userRepository = userRepository;
-		this.riderService = riderService;
-	}
 
 	@Override
 	public String login(String email, String password) {

@@ -7,9 +7,13 @@ import org.springframework.stereotype.Component;
 import com.example.demo.startegies.implementation.DriverMatchingHighestRatedDriverStrategy;
 import com.example.demo.startegies.implementation.DriverMatchingNearestDriverStartergy;
 import com.example.demo.startegies.implementation.RiderFareDefaultFareCalculationStrategy;
+
+import lombok.RequiredArgsConstructor;
+
 import com.example.demo.startegies.implementation.RideFareSurgePricingFareCalculationStrategy;
 
 @Component
+@RequiredArgsConstructor
 public class RideStratergyManager {
 	
 	private final DriverMatchingHighestRatedDriverStrategy highestRatedDriverStrategy;
@@ -17,16 +21,6 @@ public class RideStratergyManager {
 	private final RideFareSurgePricingFareCalculationStrategy surgePricingFareCalculationStrategy;
 	private final RiderFareDefaultFareCalculationStrategy defaultFareCalculationStrategy;
 	
-	public RideStratergyManager(DriverMatchingHighestRatedDriverStrategy highestRatedDriverStrategy, 
-			DriverMatchingNearestDriverStartergy nearestDriverStartergy, 
-			RideFareSurgePricingFareCalculationStrategy surgePricingFareCalculationStrategy,
-			RiderFareDefaultFareCalculationStrategy defaultFareCalculationStrategy) {
-		
-		this.highestRatedDriverStrategy = highestRatedDriverStrategy;
-		this.nearestDriverStartergy = nearestDriverStartergy;
-		this.surgePricingFareCalculationStrategy = surgePricingFareCalculationStrategy;
-		this.defaultFareCalculationStrategy = defaultFareCalculationStrategy;
-	}
 	
 	
 	public DriverMatchingStartergy driverMatchingStratergy(double riderRating) {
