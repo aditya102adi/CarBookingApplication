@@ -74,7 +74,7 @@ public class RiderServiceImple implements RiderService {
 		if(!rider.equals(ride.getRider())) {
             throw new RuntimeException(("Rider does not own this ride with id: "+rideId));
         }
-
+		
         if(!ride.getRideStatus().equals(RideStatus.CONFIRMED)) {
             throw new RuntimeException("Ride cannot be cancelled, invalid status: "+ride.getRideStatus());
         }

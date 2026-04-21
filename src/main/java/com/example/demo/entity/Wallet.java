@@ -25,11 +25,11 @@ public class Wallet {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY, optional = false)
 	private User user;
 	
 	@Column
-	private Double balance;
+	private Double balance = 0.0;
 	
 	@OneToMany(mappedBy = "wallet", fetch = FetchType.LAZY)
 	List<WalletTransaction> transactions;
